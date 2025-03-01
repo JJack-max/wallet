@@ -1,5 +1,5 @@
 import Database from '@tauri-apps/plugin-sql';
-import { DBConfig, DBType } from '../types';
+import { DBConfig, DBType, User } from '../types';
 import { load } from '@tauri-apps/plugin-store';
 
 
@@ -33,4 +33,14 @@ const setConfig = async (config: DBConfig) => {
   await store.set(DB_KEY, config);
 }
 
-export { init, getConfig, setConfig }
+const getUserCount = async (): Promise<number> => {
+  let config = await getConfig();
+  if (!config) {
+    return -1;
+  }
+  const db = await Database.load(config.url);
+
+  return db.select<number>(`select count(*) from t_user`);
+}
+
+export { init, getConfig, setConfig, getUserCount }
