@@ -1,26 +1,32 @@
-import { useState } from "react";
-import { DBConfig } from "./types";
-import { getConfig } from "./util/db";
 import { useEffect } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import InitPage from "./component/InitPage";
+import { getConfig, setConfig } from "./util/db";
 
 function App() {
-  const [config, setConfig] = useState<DBConfig | undefined>(undefined); // 初始状态为 undefined
+  let nav = useNavigate();
 
   useEffect(() => {
     const fetchConfig = async () => {
-      const initialized = await getConfig();
-      setConfig(initialized);
+      const config = await getConfig();
+      if (config) {
+        setConfig(config);
+      } else {
+        nav("/init");
+      }
     };
 
     fetchConfig();
   }, []);
 
-  if (config) {
-    return <InitPage />;
-  }
-
-  return <h1>App...</h1>;
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<h1>app..</h1>} />
+        <Route path="/init" element={<InitPage />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;

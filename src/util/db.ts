@@ -22,13 +22,13 @@ const init = async (type: DBType, url: string) => {
 }
 
 const getConfig = async (): Promise<DBConfig | undefined> => {
-  const store = await load(DB_FILE, { autoSave: false });
+  const store = await load(DB_FILE, { autoSave: true });
   const config = await store.get<DBConfig>(DB_KEY);
   return config;
 }
 
 const setConfig = async (config: DBConfig) => {
-  const store = await load(DB_FILE, { autoSave: false });
+  const store = await load(DB_FILE, { autoSave: true });
   await store.set(DB_KEY, config);
 }
 

@@ -6,18 +6,31 @@ const { Title } = Typography;
 const { Option } = Select;
 
 const InitPage: React.FC = () => {
-  const [dbType, setDbType] = useState<string>("sqlite");
-  const [dbConnectionString, setDbConnectionString] = useState<string>("");
+  const msg = {
+    sqlite: "例如: sqlite:test.db",
+    mysql: "例如: mysql://user:password@host:port/test",
+    postgres: "例如: postgres://user:password@host:port/test",
+  };
+  const PLACE_HOLDER_MAP = new Map<string, string>();
+  PLACE_HOLDER_MAP.set("sqlite", "例如: sqlite:test.db");
+  PLACE_HOLDER_MAP.set("mysql", "例如: mysql://user:password@host:port/test");
+  PLACE_HOLDER_MAP.set(
+    "postgres",
+    "例如: postgres://user:password@host:port/test"
+  );
+
+  const [type, setType] = useState<string>("sqlite");
+  const [url, setUrl] = useState<string>("");
 
   const handleDbTypeChange = (value: string) => {
-    setDbType(value);
+    setType(value);
     // 根据选择的数据库类型清空输入框
-    setDbConnectionString("");
+    setUrl("");
   };
 
   const handleSubmit = () => {
-    console.log("数据库类型:", dbType);
-    console.log("连接字符串:", dbConnectionString);
+    console.log("数据库类型:", type);
+    console.log("连接字符串:", url);
     // 在这里处理提交逻辑
   };
 
@@ -26,7 +39,7 @@ const InitPage: React.FC = () => {
       <Title level={2}>初始化设置</Title>
       <Form layout="vertical" onFinish={handleSubmit}>
         <Form.Item label="选择数据库类型">
-          <Select value={dbType} onChange={handleDbTypeChange}>
+          <Select value={type} onChange={handleDbTypeChange}>
             <Option value="sqlite">SQLite</Option>
             <Option value="mysql">MySQL</Option>
             <Option value="postgres">PostgreSQL</Option>
@@ -34,15 +47,9 @@ const InitPage: React.FC = () => {
         </Form.Item>
         <Form.Item label="数据库连接字符串">
           <Input
-            value={dbConnectionString}
-            onChange={(e) => setDbConnectionString(e.target.value)}
-            placeholder={
-              dbType === "sqlite"
-                ? "例如: sqlite:test.db"
-                : dbType === "mysql"
-                ? "例如: mysql://user:password@host/test"
-                : "例如: postgres://user:password@host/test"
-            }
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder={PLACE_HOLDER_MAP.get(type)}
           />
         </Form.Item>
         <Form.Item>
