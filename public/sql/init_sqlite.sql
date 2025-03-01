@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS t_user (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    account TEXT NOT NULL,
+    password TEXT NOT NULL,
+    salt TEXT NOT NULL
+);

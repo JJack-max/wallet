@@ -39,8 +39,8 @@ const InitPage: React.FC = () => {
   };
 
   // 正则表达式校验
-  const getValidationRules = (dbType: string) => {
-    switch (dbType) {
+  const getValidationRules = (type: string) => {
+    switch (type) {
       case "sqlite":
         return [
           {
@@ -104,9 +104,11 @@ const InitPage: React.FC = () => {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            提交
-          </Button>
+          <div>
+            <Button type="primary" htmlType="submit">
+              提交
+            </Button>
+          </div>
         </Form.Item>
       </Form>
     </div>

@@ -9,7 +9,7 @@ const DB_FILE = 'db.json';
 const init = async (type: DBType, url: string) => {
   setConfig({ type, url });
   const db = await Database.load(url);
-  const response = await fetch(url);
+  const response = await fetch(`/sql/init_${type}.sql`);
 
   // 检查响应是否成功
   if (!response.ok) {
