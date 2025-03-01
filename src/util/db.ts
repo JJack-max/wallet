@@ -7,7 +7,6 @@ const DB_KEY = 'db';
 const DB_FILE = 'db.json';
 
 const init = async (type: DBType, url: string) => {
-  setConfig({ type, url });
   const db = await Database.load(url);
   const response = await fetch(`/sql/init_${type}.sql`);
 
@@ -19,6 +18,8 @@ const init = async (type: DBType, url: string) => {
   const sql = await response.text();
 
   await db.execute(sql);
+
+  setConfig({ type, url });
 }
 
 const getConfig = async (): Promise<DBConfig | undefined> => {
