@@ -1,11 +1,15 @@
 // src/InitPage.tsx
 import React, { useState } from "react";
 import { Form, Input, Select, Button, Typography } from "antd";
+import { init } from "../util/db";
+import { DBType } from "../types";
+import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 const { Option } = Select;
 
 const InitPage: React.FC = () => {
+  let nav = useNavigate();
   const PLACE_HOLDER_MAP = new Map<string, string>();
   PLACE_HOLDER_MAP.set("sqlite", "例如: sqlite:test.db");
   PLACE_HOLDER_MAP.set("mysql", "例如: mysql://user:password@host:port/test");
@@ -14,11 +18,11 @@ const InitPage: React.FC = () => {
     "例如: postgres://user:password@host:port/test"
   );
 
-  const [type, setType] = useState<string>("sqlite");
+  const [type, setType] = useState<DBType>("sqlite");
   const [url, setUrl] = useState<string>("");
   const [form] = Form.useForm(); // 使用 Form 实例
 
-  const handleDbTypeChange = (value: string) => {
+  const handleDbTypeChange = (value: DBType) => {
     setType(value);
     // 根据选择的数据库类型清空输入框
     setUrl("");
@@ -32,6 +36,8 @@ const InitPage: React.FC = () => {
         console.log("数据库类型:", type);
         console.log("连接字符串:", url);
         // 在这里处理提交逻辑
+        init(type, url);
+        nav("/");
       })
       .catch((errorInfo) => {
         console.log("校验失败:", errorInfo);
@@ -39,7 +45,7 @@ const InitPage: React.FC = () => {
   };
 
   // 正则表达式校验
-  const getValidationRules = (type: string) => {
+  const getValidationRules = (type: DBType) => {
     switch (type) {
       case "sqlite":
         return [
