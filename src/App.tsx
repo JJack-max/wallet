@@ -1,36 +1,18 @@
-import { useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import InitPage from "./component/InitPage";
+import { Route, Routes } from "react-router-dom";
+import Login from "./component/Login";
 import Register from "./component/Register";
-import { getConfig, getUserCount } from "./util/db";
+import DashBoard from "./component/DashBoard";
+import Mnemonic from "./component/Mnemonic";
 
-function App() {
-  let nav = useNavigate();
-
-  useEffect(() => {
-    const fetchConfig = async () => {
-      let count = await getUserCount();
-      if (count == -1) {
-        nav("/init");
-      } else if (count == 0) {
-        nav("/register");
-      } else {
-        nav("/");
-      }
-    };
-
-    fetchConfig();
-  }, []);
-
+const App: React.FC = () => {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<h1>app..</h1>} />
-        <Route path="/init" element={<InitPage />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<DashBoard />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/mnemonic" element={<Mnemonic />} />
+    </Routes>
   );
-}
+};
 
 export default App;

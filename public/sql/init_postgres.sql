@@ -1,6 +1,0 @@
-CREATE TABLE IF NOT EXISTS t_user (
-    id SERIAL PRIMARY KEY,
-    account VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    salt VARCHAR(255) NOT NULL
-);

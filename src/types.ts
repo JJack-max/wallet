@@ -1,13 +1,9 @@
-export type DBType = 'postgres' | 'mysql' | 'sqlite';
+import { Client, Stronghold } from "@tauri-apps/plugin-stronghold";
 
-export interface DBConfig {
-  type: DBType,
-  url: string,
-};
-
-export interface User {
-  id: number,
-  username: string,
-  password: string,
-  salt: string,
+// 定义 Context 的类型
+export interface MyContextType {
+  stronghold: Stronghold | undefined;
+  client: Client | undefined;
+  setStronghold: (stronghold: Stronghold) => void;
+  setClient: (client: Client) => void;
 }
