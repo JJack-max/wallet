@@ -40,8 +40,6 @@ const Login: React.FC = () => {
       return;
     }
 
-    console.log("===> login");
-
     localStorage.setItem("loginTime", Date.now().toString());
 
     nav("/");
